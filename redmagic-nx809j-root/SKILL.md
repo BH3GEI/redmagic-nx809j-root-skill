@@ -1,7 +1,6 @@
 ---
 name: redmagic-nx809j-root
 description: Unlock bootloader via Qualcomm GBL EFI exploit on efisp and root RedMagic 11 Pro (NX809J, Snapdragon 8 Elite / SM8750) using Magisk patched init_boot via EDL (9008). Use when unlocking or rooting RedMagic 11 Pro, flashing init_boot on locked OEM fastboot, or troubleshooting EDL 9008 flashing on Snapdragon 8 Elite devices.
-disable-model-invocation: true
 ---
 
 # RedMagic 11 Pro (NX809J) Root and Bootloader Unlock Skill
