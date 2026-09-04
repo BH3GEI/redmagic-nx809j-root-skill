@@ -74,7 +74,7 @@ The canonical skill lives in [`redmagic-nx809j-root/`](redmagic-nx809j-root/). T
 mkdir -p ~/.claude/skills
 cp -R redmagic-nx809j-root ~/.claude/skills/
 ```
-The skill frontmatter sets `disable-model-invocation: true`, so it is invoked explicitly (`/redmagic-nx809j-root`) rather than auto-triggered by the model.
+The skill auto-triggers when a task matches the frontmatter description (unlocking or rooting RedMagic 11 Pro, flashing init_boot on locked-OEM fastboot, troubleshooting EDL 9008 on Snapdragon 8 Elite); it can also be invoked explicitly via `/redmagic-nx809j-root`.
 
 ### Codex CLI / DeepSeek / AGENTS.md-Compatible Agents
 - **This Repository as Workspace**: No installation needed — these harnesses read [`AGENTS.md`](AGENTS.md) automatically and are routed to the canonical skill files.
