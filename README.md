@@ -19,10 +19,17 @@ This repository provides an end-to-end engineered pathway bypassing these restri
 
 ```text
 redmagic-nx809j-root-skill/
+├── AGENTS.md                        # Cross-harness entry point (Codex CLI, DeepSeek, AGENTS.md-compatible agents)
+├── .claude/
+│   └── skills/
+│       └── redmagic-nx809j-root/    # Project-scoped Claude Code skill (mirror of canonical)
+│           ├── SKILL.md
+│           ├── reference.md
+│           └── scripts/
 ├── .cursor/
 │   └── skills/
 │       └── redmagic-nx809j-root/
-│           └── SKILL.md             # Project-scoped Cursor skill definition
+│           └── SKILL.md             # Project-scoped Cursor skill definition (mirror)
 ├── redmagic-nx809j-root/
 │   ├── SKILL.md                     # Canonical skill specification
 │   ├── reference.md                 # Deep technical architecture & disassembly
@@ -56,17 +63,41 @@ redmagic-nx809j-root-skill/
 
 ---
 
-## Installation into Cursor
+## Installation Across Agent Harnesses
 
-### Personal Skill (Recommended)
-To make this skill globally accessible to Cursor across all workspaces on your machine:
+The canonical skill lives in [`redmagic-nx809j-root/`](redmagic-nx809j-root/). The `.claude/skills/` and `.cursor/skills/` directories are format mirrors of it — after editing the canonical files, re-sync them (see [Syncing Mirrors](#syncing-mirrors)).
+
+### Claude Code
+- **Project Skill**: If using this repository directly as a workspace in Claude Code, the skill is already pre-configured under `.claude/skills/redmagic-nx809j-root/`.
+- **Personal Skill (Recommended)**: To make this skill globally accessible to Claude Code across all workspaces on your machine:
+```bash
+mkdir -p ~/.claude/skills
+cp -R redmagic-nx809j-root ~/.claude/skills/
+```
+The skill frontmatter sets `disable-model-invocation: true`, so it is invoked explicitly (`/redmagic-nx809j-root`) rather than auto-triggered by the model.
+
+### Codex CLI / DeepSeek / AGENTS.md-Compatible Agents
+- **This Repository as Workspace**: No installation needed — these harnesses read [`AGENTS.md`](AGENTS.md) automatically and are routed to the canonical skill files.
+- **Global Skill**: Add a pointer to your user-level agents file (e.g. `~/.codex/AGENTS.md`):
+```bash
+echo "For RedMagic NX809J root/unlock tasks, follow the skill at: /absolute/path/to/redmagic-nx809j-root-skill/AGENTS.md" >> ~/.codex/AGENTS.md
+```
+
+### Cursor
+- **Personal Skill (Recommended)**: To make this skill globally accessible to Cursor across all workspaces on your machine:
 ```bash
 mkdir -p ~/.cursor/skills/redmagic-nx809j-root
 cp redmagic-nx809j-root/SKILL.md ~/.cursor/skills/redmagic-nx809j-root/
 ```
+- **Project Skill**: If using this repository directly as a workspace in Cursor, the configuration is already pre-configured under `.cursor/skills/redmagic-nx809j-root/SKILL.md`.
 
-### Project Skill
-If using this repository directly as a workspace in Cursor, the configuration is already pre-configured under `.cursor/skills/redmagic-nx809j-root/SKILL.md`.
+### Syncing Mirrors
+
+After editing the canonical files in `redmagic-nx809j-root/`, refresh the harness mirrors:
+```bash
+rsync -a --delete redmagic-nx809j-root/ .claude/skills/redmagic-nx809j-root/
+cp redmagic-nx809j-root/SKILL.md .cursor/skills/redmagic-nx809j-root/SKILL.md
+```
 
 ---
 
