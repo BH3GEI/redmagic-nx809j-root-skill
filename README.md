@@ -139,6 +139,7 @@ The stock firmware and a full pre-unlock EDL backup are published as Release ass
 | `firmware-cn_1123mr1-no-super.tar.gz` | Rest of the factory package: all other `images/`, `devprg/` (Sahara loader set incl. `qsahara_device_programmer.xml`), `flash_all.sh` |
 | `backup.tar.gz` | Full per-LUN EDL dump (`lun0`–`lun5`) taken before unlock, plus `efisp` snapshots |
 | `SHA256SUMS.txt` / `SUPER_ORIGINAL.sha256` | Checksums for every asset and for the reassembled `super.img` |
+| `bkerler-edl.tar.gz` | Pinned copy of the [bkerler/edl](https://github.com/bkerler/edl) EDL client used by the flashing workflow (`bkerler-edl.commit` records the exact upstream commit; verify with `bkerler-edl.sha256`) |
 
 ```bash
 # reassemble and verify
@@ -146,6 +147,8 @@ cat super.img.part.* > super.img
 shasum -a 256 -c SHA256SUMS.txt
 shasum -a 256 super.img          # compare with SUPER_ORIGINAL.sha256
 ```
+
+With these assets the workflow is self-contained: the exploit binaries (`gbl_unlock.efi`, `misc_wipedata.img`, `efisp_empty.img`), the SM8750 Sahara loader (`qsahara_device_programmer.xml`), a `magiskboot`/Magisk APK and the EDL client (`bkerler-edl.tar.gz`) all ship inside `firmware-cn_1123mr1-no-super.tar.gz` or as their own asset. Unpack the EDL client with `mkdir bkerler-edl && tar xzf bkerler-edl.tar.gz -C bkerler-edl`, then follow the SKILL workflow (a newer Magisk from [topjohnwu/Magisk](https://github.com/topjohnwu/Magisk) is optional).
 
 Firmware version: `cn_1123mr1` (RedMagicOS 11.0.23MR1). The factory package originates from the ZTE/Nubia community flashing toolkit distributed via the 云湖「中兴努比亚红魔刷机交流群」; `gbl_unlock.efi` is built from [superturtlee/gbl_root_canoe](https://github.com/superturtlee/gbl_root_canoe).
 
