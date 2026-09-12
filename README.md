@@ -127,6 +127,32 @@ python3 ./redmagic-nx809j-root/scripts/edl_flash_root.py \
 
 ---
 
+## Firmware & Device Backup (GitHub Release)
+
+The stock firmware and a full pre-unlock EDL backup are published as Release assets (git ignores `*.img` / `*.bin`, so nothing lives in the tree):
+
+**Release:** https://github.com/BH3GEI/redmagic-nx809j-root-skill/releases/tag/firmware-cn_1123mr1
+
+| Asset | Contents |
+|---|---|
+| `super.img.part.aa` … `super.img.part.aj` | Stock `super.img` (18 GB) split into 1.9 GB parts (GitHub asset limit is 2 GB) |
+| `firmware-cn_1123mr1-no-super.tar.gz` | Rest of the factory package: all other `images/`, `devprg/` (Sahara loader set incl. `qsahara_device_programmer.xml`), `flash_all.sh` |
+| `backup.tar.gz` | Full per-LUN EDL dump (`lun0`–`lun5`) taken before unlock, plus `efisp` snapshots |
+| `SHA256SUMS.txt` / `SUPER_ORIGINAL.sha256` | Checksums for every asset and for the reassembled `super.img` |
+
+```bash
+# reassemble and verify
+cat super.img.part.* > super.img
+shasum -a 256 -c SHA256SUMS.txt
+shasum -a 256 super.img          # compare with SUPER_ORIGINAL.sha256
+```
+
+Firmware version: `cn_1123mr1` (RedMagicOS 11.0.23MR1). The factory package originates from the ZTE/Nubia community flashing toolkit distributed via the 云湖「中兴努比亚红魔刷机交流群」; `gbl_unlock.efi` is built from [superturtlee/gbl_root_canoe](https://github.com/superturtlee/gbl_root_canoe).
+
+**Warning:** `backup.tar.gz` is a dump of one specific unit (`persist`, `modemst1/2`, `fsg`, `fsc`, `frp`, `keystore`, `devinfo`). Never flash it to another device.
+
+---
+
 ## Safety and Quality Rules
 
 - Never reboot a connected device without explicit confirmation.
